@@ -5,20 +5,19 @@ export const calculateItemTotal = (item: CartItem) => {
   const { price } = product;
 
   const totalBeforeDiscount = price * quantity;
+  const discount = getMaxApplicableDiscount(item);
 
-  const discount = item.product.discounts.reduce((maxDiscount, d) => {
-    return quantity >= d.quantity && d.rate > maxDiscount
-      ? d.rate
-      : maxDiscount;
-  }, 0);
-
-  const totalAfterDiscount = totalBeforeDiscount * (1 - discount);
-
-  return totalAfterDiscount;
+  return totalBeforeDiscount * (1 - discount);
 };
 
 export const getMaxApplicableDiscount = (item: CartItem) => {
-  return 0;
+  return item.product.discounts.reduce(
+    (maxDiscount, d) =>
+      item.quantity >= d.quantity && d.rate > maxDiscount
+        ? d.rate
+        : maxDiscount,
+    0
+  );
 };
 
 export const calculateCartTotal = (
