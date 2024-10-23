@@ -1,6 +1,7 @@
 // useCart.ts
 import { useState } from 'react';
 import { CartItem, Coupon, Product } from '../../types';
+import { calculateItemTotal } from './utils/cartUtils';
 
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -67,15 +68,9 @@ export const useCart = () => {
     cart.forEach((item) => {
       const { price } = item.product;
       const { quantity } = item;
+
       totalBeforeDiscount += price * quantity;
-
-      const discount = item.product.discounts.reduce((maxDiscount, d) => {
-        return quantity >= d.quantity && d.rate > maxDiscount
-          ? d.rate
-          : maxDiscount;
-      }, 0);
-
-      totalAfterDiscount += price * quantity * (1 - discount);
+      totalAfterDiscount += calculateItemTotal(item);
     });
 
     let totalDiscount = totalBeforeDiscount - totalAfterDiscount;
