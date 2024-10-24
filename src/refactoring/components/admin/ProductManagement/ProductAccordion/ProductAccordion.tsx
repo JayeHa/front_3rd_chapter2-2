@@ -1,6 +1,7 @@
 import { Shared } from 'refactoring/components/shared';
 import { useEditProduct } from 'refactoring/hooks/useEditProduct';
 import { Product } from 'types';
+import { DiscountInfo } from './DiscountInfo';
 
 interface Props extends ReturnType<typeof useEditProduct> {
   product: Product;
@@ -44,14 +45,8 @@ export const ProductAccordion = ({
         <div className="mt-2">
           {!showProductForm && (
             <div>
-              {product.discounts.map((discount, index) => (
-                <div key={index} className="mb-2">
-                  <span>
-                    {discount.quantity}개 이상 구매 시 {discount.rate * 100}%
-                    할인
-                  </span>
-                </div>
-              ))}
+              <DiscountInfo discounts={product.discounts} />
+
               <button
                 data-testid="modify-button"
                 onClick={() => handleEditProduct(product)}
@@ -106,23 +101,12 @@ export const ProductAccordion = ({
               {/* 할인 정보 수정 부분 */}
               <div>
                 <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
-                {editingProduct.discounts.map((discount, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center mb-2"
-                  >
-                    <span>
-                      {discount.quantity}개 이상 구매 시 {discount.rate * 100}%
-                      할인
-                    </span>
-                    <button
-                      onClick={() => handleRemoveDiscount(product.id, index)}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      삭제
-                    </button>
-                  </div>
-                ))}
+                <DiscountInfo
+                  discounts={editingProduct.discounts}
+                  handleRemoveDiscount={handleRemoveDiscount}
+                  productId={product.id}
+                />
+
                 <div className="flex space-x-2">
                   <Shared.Input
                     type="number"
