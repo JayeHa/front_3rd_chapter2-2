@@ -1,3 +1,4 @@
+import { Shared } from 'refactoring/components/shared';
 import { useEditProduct } from 'refactoring/hooks/useEditProduct';
 import { Product } from 'types';
 
@@ -63,45 +64,45 @@ export const ProductAccordion = ({
 
           {showProductForm && (
             <div>
-              <div className="mb-4">
-                <label className="block mb-1">상품명: </label>
-                <input
-                  type="text"
-                  value={editingProduct.name}
-                  onChange={(e) =>
-                    handleEditingProductChange(product.id, {
-                      name: e.target.value,
-                    })
-                  }
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">가격: </label>
-                <input
-                  type="number"
-                  value={editingProduct.price}
-                  onChange={(e) =>
-                    handleEditingProductChange(product.id, {
-                      price: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-1">재고: </label>
-                <input
-                  type="number"
-                  value={editingProduct.stock}
-                  onChange={(e) =>
-                    handleEditingProductChange(product.id, {
-                      stock: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full p-2 border rounded"
-                />
-              </div>
+              <Shared.Input
+                label="상품평: "
+                type="text"
+                value={editingProduct.name}
+                onChange={(e) =>
+                  handleEditingProductChange(product.id, {
+                    name: e.target.value,
+                  })
+                }
+                className="mb-4"
+                labelSize="l"
+              />
+
+              <Shared.Input
+                label="가격: "
+                type="number"
+                value={editingProduct.price}
+                onChange={(e) =>
+                  handleEditingProductChange(product.id, {
+                    price: parseInt(e.target.value),
+                  })
+                }
+                className="mb-4"
+                labelSize="l"
+              />
+
+              <Shared.Input
+                label="재고: "
+                type="number"
+                value={editingProduct.stock}
+                onChange={(e) =>
+                  handleEditingProductChange(product.id, {
+                    stock: parseInt(e.target.value),
+                  })
+                }
+                className="mb-4"
+                labelSize="l"
+              />
+
               {/* 할인 정보 수정 부분 */}
               <div>
                 <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
@@ -123,7 +124,7 @@ export const ProductAccordion = ({
                   </div>
                 ))}
                 <div className="flex space-x-2">
-                  <input
+                  <Shared.Input
                     type="number"
                     placeholder="수량"
                     value={newDiscount.quantity}
@@ -132,9 +133,9 @@ export const ProductAccordion = ({
                         quantity: parseInt(e.target.value),
                       })
                     }
-                    className="w-1/3 p-2 border rounded"
+                    className="w-1/3"
                   />
-                  <input
+                  <Shared.Input
                     type="number"
                     placeholder="할인율 (%)"
                     value={newDiscount.rate * 100}
@@ -143,8 +144,9 @@ export const ProductAccordion = ({
                         rate: parseInt(e.target.value) / 100,
                       })
                     }
-                    className="w-1/3 p-2 border rounded"
+                    className="w-1/3"
                   />
+
                   <button
                     onClick={() => handleAddDiscount(product.id)}
                     className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
