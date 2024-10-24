@@ -1,4 +1,4 @@
-import { useCart } from '../../hooks';
+import { useCart } from 'refactoring/hooks';
 
 type Props = Pick<ReturnType<typeof useCart>, 'calculateTotal'>;
 

@@ -1,5 +1,5 @@
-import { CartItem } from '../../../types';
-import { useCart } from '../../hooks';
+import { useCart } from 'refactoring/hooks';
+import { CartItem } from 'types';
 
 type Props = Pick<
   ReturnType<typeof useCart>,
