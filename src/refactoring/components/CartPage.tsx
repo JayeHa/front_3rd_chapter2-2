@@ -10,6 +10,22 @@ interface Props {
   coupons: Coupon[];
 }
 
+// 재고 계산 함수
+const getRemainingStock = (product: Product, cart: CartItem[]) => {
+  const cartItem = cart.find((item) => item.product.id === product.id);
+  return product.stock - (cartItem?.quantity || 0);
+};
+
+// 할인 계산 함수
+const getAppliedDiscount = (item: CartItem) => {
+  return item.product.discounts.reduce((maxDiscount, discount) => {
+    if (item.quantity >= discount.quantity) {
+      return Math.max(maxDiscount, discount.rate);
+    }
+    return maxDiscount;
+  }, 0);
+};
+
 export const CartPage = ({ products, coupons }: Props) => {
   const {
     cart,
@@ -20,23 +36,6 @@ export const CartPage = ({ products, coupons }: Props) => {
     calculateTotal,
     selectedCoupon,
   } = useCart();
-
-  const getRemainingStock = (product: Product) => {
-    const cartItem = cart.find((item) => item.product.id === product.id);
-    return product.stock - (cartItem?.quantity || 0);
-  };
-
-  const getAppliedDiscount = (item: CartItem) => {
-    const { discounts } = item.product;
-    const { quantity } = item;
-    let appliedDiscount = 0;
-    for (const discount of discounts) {
-      if (quantity >= discount.quantity) {
-        appliedDiscount = Math.max(appliedDiscount, discount.rate);
-      }
-    }
-    return appliedDiscount;
-  };
 
   return (
     <div className="container mx-auto p-4">
@@ -49,7 +48,7 @@ export const CartPage = ({ products, coupons }: Props) => {
               key={product.id}
               handleAddToCart={addToCart}
               product={product}
-              remainingStock={getRemainingStock(product)}
+              remainingStock={getRemainingStock(product, cart)}
             />
           ))}
         </div>

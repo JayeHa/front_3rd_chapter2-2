@@ -6,15 +6,15 @@ interface Props {
   handleAddToCart: (product: Product) => void;
 }
 
+const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
+  return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
+};
+
 export const CartProductCard = ({
   product,
   remainingStock,
   handleAddToCart,
 }: Props) => {
-  const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
-    return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
-  };
-
   return (
     <div
       data-testid={`product-${product.id}`}
@@ -26,6 +26,7 @@ export const CartProductCard = ({
           {product.price.toLocaleString()}원
         </span>
       </div>
+
       <div className="text-sm text-gray-500 mb-2">
         <span
           className={`font-medium ${
@@ -34,12 +35,14 @@ export const CartProductCard = ({
         >
           재고: {remainingStock}개
         </span>
+
         {product.discounts.length > 0 && (
           <span className="ml-2 font-medium text-blue-600">
             최대 {(getMaxDiscount(product.discounts) * 100).toFixed(0)}% 할인
           </span>
         )}
       </div>
+
       {product.discounts.length > 0 && (
         <ul className="list-disc list-inside text-sm text-gray-500 mb-2">
           {product.discounts.map((discount, index) => (
@@ -50,6 +53,7 @@ export const CartProductCard = ({
           ))}
         </ul>
       )}
+
       <button
         onClick={() => handleAddToCart(product)}
         className={`w-full px-3 py-1 rounded ${
