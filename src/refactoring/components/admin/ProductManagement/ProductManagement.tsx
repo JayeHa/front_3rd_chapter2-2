@@ -21,12 +21,6 @@ export const ProductManagement = ({
   });
 
   const [showNewProductForm, setShowNewProductForm] = useState(false);
-  const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
-    name: '',
-    price: 0,
-    stock: 0,
-    discounts: [],
-  });
 
   const toggleProductAccordion = (productId: string) => {
     setOpenProductIds((prev) => {
@@ -106,12 +100,6 @@ export const ProductManagement = ({
   const handleAddNewProduct = (newProduct: NewProduct) => {
     const productWithId = { ...newProduct, id: Date.now().toString() };
     onProductAdd(productWithId);
-    setNewProduct({
-      name: '',
-      price: 0,
-      stock: 0,
-      discounts: [],
-    });
     setShowNewProductForm(false);
   };
 
@@ -125,7 +113,7 @@ export const ProductManagement = ({
         {showNewProductForm ? '취소' : '새 상품 추가'}
       </button>
       {showNewProductForm && (
-        <NewProductForm handleAddNewProduct={handleAddNewProduct} />
+        <NewProductForm addNewProduct={handleAddNewProduct} />
       )}
       <div className="space-y-2">
         {products.map((product, index) => (
