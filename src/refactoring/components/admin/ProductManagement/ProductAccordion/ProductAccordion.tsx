@@ -19,13 +19,14 @@ export const ProductAccordion = ({
   toggleIsOpen,
 
   editingProduct,
-  handleAddDiscount,
-  handleEditComplete,
-  handleEditProduct,
   handleEditingProductChange,
-  handleRemoveDiscount,
+  handleEditProduct,
+  handleEditComplete,
+
   newDiscount,
   handleNewDiscountChange,
+  handleAddDiscount,
+  handleRemoveDiscount,
 }: Props) => {
   const showProductForm = editingProduct && editingProduct.id === product.id;
 

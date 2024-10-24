@@ -1,0 +1,1 @@
+export { AddProductPanel } from './AddProductPanel';
