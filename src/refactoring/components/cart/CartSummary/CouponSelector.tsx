@@ -8,6 +8,7 @@ type Props = Pick<
   coupons: Coupon[];
 };
 
+// 쿠폰 할인 포맷
 const formatCouponDiscount = (coupon: Coupon) => {
   return coupon.discountType === 'amount'
     ? `${coupon.discountValue}원`

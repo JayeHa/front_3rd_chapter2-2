@@ -6,6 +6,7 @@ interface Props {
   handleAddToCart: (product: Product) => void;
 }
 
+// 최대 할인율 계산
 const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
   return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };

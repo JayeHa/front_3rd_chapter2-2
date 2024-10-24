@@ -1,16 +1,16 @@
 import { CartItem, Product } from 'types';
 import { CartProductCard } from './CartProductCard';
 
-// 재고 계산 함수
-const getRemainingStock = (product: Product, cart: CartItem[]) => {
-  const cartItem = cart.find((item) => item.product.id === product.id);
-  return product.stock - (cartItem?.quantity || 0);
-};
-
 type Props = {
   products: Product[];
   cart: CartItem[];
   handleAddToCart: (product: Product) => void;
+};
+
+// 재고 계산 함수
+const getRemainingStock = (product: Product, cart: CartItem[]) => {
+  const cartItem = cart.find((item) => item.product.id === product.id);
+  return product.stock - (cartItem?.quantity || 0);
 };
 
 export const CartProductList = ({ products, cart, handleAddToCart }: Props) => {

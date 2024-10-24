@@ -4,16 +4,6 @@ import { CartItemCard } from './CartItemCard';
 import { CouponSelector } from './CouponSelector';
 import { OrderSummary } from './OrderSummary';
 
-// 할인 계산 함수
-const getAppliedDiscount = (item: CartItem) => {
-  return item.product.discounts.reduce((maxDiscount, discount) => {
-    if (item.quantity >= discount.quantity) {
-      return Math.max(maxDiscount, discount.rate);
-    }
-    return maxDiscount;
-  }, 0);
-};
-
 type Props = Pick<
   ReturnType<typeof useCart>,
   | 'removeFromCart'
@@ -24,6 +14,16 @@ type Props = Pick<
 > & {
   cart: CartItem[];
   coupons: Coupon[];
+};
+
+// 할인 계산 함수
+const getAppliedDiscount = (item: CartItem) => {
+  return item.product.discounts.reduce((maxDiscount, discount) => {
+    if (item.quantity >= discount.quantity) {
+      return Math.max(maxDiscount, discount.rate);
+    }
+    return maxDiscount;
+  }, 0);
 };
 
 export const CartSummary = ({
