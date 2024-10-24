@@ -7,15 +7,7 @@ export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
 
-  const getRemainingStock = (product: Product) => {
-    const cartItem = cart.find((item) => item.product.id === product.id);
-    return product.stock - (cartItem?.quantity || 0);
-  };
-
   const addToCart = (product: Product) => {
-    const remainingStock = getRemainingStock(product);
-    if (remainingStock <= 0) return;
-
     setCart((prevCart) => {
       const existingItem = prevCart.find(
         (item) => item.product.id === product.id
