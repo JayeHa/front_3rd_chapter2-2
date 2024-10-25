@@ -1,13 +1,11 @@
 import { CartItem, Coupon } from '../../../types';
 
 export const calculateItemTotal = (item: CartItem) => {
-  const { product, quantity } = item;
-  const { price } = product;
+  const { price } = item.product;
+  const totalBeforeDiscount = price * item.quantity;
+  const discountRate = getMaxApplicableDiscount(item);
 
-  const totalBeforeDiscount = price * quantity;
-  const discount = getMaxApplicableDiscount(item);
-
-  return totalBeforeDiscount * (1 - discount);
+  return totalBeforeDiscount * (1 - discountRate);
 };
 
 export const getMaxApplicableDiscount = (item: CartItem) => {
@@ -20,35 +18,30 @@ export const getMaxApplicableDiscount = (item: CartItem) => {
   );
 };
 
+const applyCouponDiscount = (amount: number, coupon: Coupon) => {
+  return coupon.discountType === 'amount'
+    ? (amount = Math.max(0, amount - coupon.discountValue))
+    : (amount *= 1 - coupon.discountValue / 100);
+};
+
 export const calculateCartTotal = (
   cart: CartItem[],
   selectedCoupon: Coupon | null
 ) => {
-  let totalBeforeDiscount = 0;
-  let totalAfterDiscount = 0;
+  const totalBeforeDiscount = cart.reduce(
+    (total, item) => total + item.product.price * item.quantity,
+    0
+  );
+  const totalAfterDiscountWithoutCoupon = cart.reduce(
+    (total, item) => total + calculateItemTotal(item),
+    0
+  );
 
-  cart.forEach((item) => {
-    const { price } = item.product;
-    const { quantity } = item;
+  const totalAfterDiscount = selectedCoupon
+    ? applyCouponDiscount(totalAfterDiscountWithoutCoupon, selectedCoupon)
+    : totalAfterDiscountWithoutCoupon;
 
-    totalBeforeDiscount += price * quantity;
-    totalAfterDiscount += calculateItemTotal(item);
-  });
-
-  let totalDiscount = totalBeforeDiscount - totalAfterDiscount;
-
-  // 쿠폰 적용
-  if (selectedCoupon) {
-    if (selectedCoupon.discountType === 'amount') {
-      totalAfterDiscount = Math.max(
-        0,
-        totalAfterDiscount - selectedCoupon.discountValue
-      );
-    } else {
-      totalAfterDiscount *= 1 - selectedCoupon.discountValue / 100;
-    }
-    totalDiscount = totalBeforeDiscount - totalAfterDiscount;
-  }
+  const totalDiscount = totalBeforeDiscount - totalAfterDiscount;
 
   return {
     totalBeforeDiscount: Math.round(totalBeforeDiscount),
