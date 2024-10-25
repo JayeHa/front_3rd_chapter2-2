@@ -30,24 +30,24 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
       <h2 className="text-2xl font-semibold mb-4">쿠폰 관리</h2>
       <div className="bg-white p-4 rounded shadow">
         <div className="space-y-2 mb-4">
-          <input
+          <Shared.Input
             type="text"
             placeholder="쿠폰 이름"
             value={newCoupon.name}
             onChange={(e) =>
               setNewCoupon({ ...newCoupon, name: e.target.value })
             }
-            className="w-full p-2 border rounded"
           />
-          <input
+
+          <Shared.Input
             type="text"
             placeholder="쿠폰 코드"
             value={newCoupon.code}
             onChange={(e) =>
               setNewCoupon({ ...newCoupon, code: e.target.value })
             }
-            className="w-full p-2 border rounded"
           />
+
           <div className="flex gap-2">
             <select
               value={newCoupon.discountType}
@@ -62,7 +62,8 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
               <option value="amount">금액(원)</option>
               <option value="percentage">할인율(%)</option>
             </select>
-            <input
+
+            <Shared.Input
               type="number"
               placeholder="할인 값"
               value={newCoupon.discountValue}
@@ -72,7 +73,6 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
                   discountValue: parseInt(e.target.value),
                 })
               }
-              className="w-full p-2 border rounded"
             />
           </div>
           <Shared.Button
