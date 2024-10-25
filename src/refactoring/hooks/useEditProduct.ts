@@ -13,34 +13,35 @@ export const useEditProduct = ({ products, onProductUpdate }: Props) => {
     rate: 0,
   });
 
-  // handleEditProduct 함수 수정
-  const handleEditProduct = (product: Product) => {
-    setEditingProduct({ ...product });
+  // 제품 수정 시작
+  const editProductStart = (product: Product) => {
+    setEditingProduct(product);
   };
 
-  // 수정 완료 핸들러 함수 추가
-  const handleEditComplete = () => {
+  // 제품 수정 완료
+  const editProductComplete = () => {
     if (editingProduct) {
       onProductUpdate(editingProduct);
       setEditingProduct(null);
     }
   };
 
-  // 새로운 핸들러 함수 추가
-
-  const handleEditingProductChange = (
+  // 제품 정보 변경
+  const updateEditingProduct = (
     productId: string,
     updatedFields: Partial<Pick<Product, 'name' | 'price' | 'stock'>>
   ) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, ...updatedFields };
-      setEditingProduct(updatedProduct);
+    if (editingProduct?.id === productId) {
+      setEditingProduct(
+        (prevProduct) => prevProduct && { ...prevProduct, ...updatedFields }
+      );
     }
   };
 
-  const handleAddDiscount = (productId: string) => {
+  // 할인 추가
+  const addDiscount = (productId: string) => {
     const updatedProduct = products.find((p) => p.id === productId);
-    if (updatedProduct && editingProduct) {
+    if (updatedProduct) {
       const newProduct = {
         ...updatedProduct,
         discounts: [...updatedProduct.discounts, newDiscount],
@@ -51,7 +52,8 @@ export const useEditProduct = ({ products, onProductUpdate }: Props) => {
     }
   };
 
-  const handleRemoveDiscount = (productId: string, index: number) => {
+  // 할인 삭제
+  const removeDiscount = (productId: string, index: number) => {
     const updatedProduct = products.find((p) => p.id === productId);
     if (updatedProduct) {
       const newProduct = {
@@ -63,22 +65,20 @@ export const useEditProduct = ({ products, onProductUpdate }: Props) => {
     }
   };
 
-  const handleNewDiscountChange = (updatedFields: Partial<Discount>) => {
-    setNewDiscount((prevDiscount) => ({
-      ...prevDiscount,
-      ...updatedFields,
-    }));
+  // 할인 정보 변경
+  const changeNewDiscount = (updatedFields: Partial<Discount>) => {
+    setNewDiscount((prevDiscount) => ({ ...prevDiscount, ...updatedFields }));
   };
 
   return {
     editingProduct,
-    handleEditingProductChange,
-    handleEditProduct,
-    handleEditComplete,
+    updateEditingProduct,
+    editProductStart,
+    editProductComplete,
 
     newDiscount,
-    handleNewDiscountChange,
-    handleAddDiscount,
-    handleRemoveDiscount,
+    changeNewDiscount,
+    addDiscount,
+    removeDiscount,
   };
 };

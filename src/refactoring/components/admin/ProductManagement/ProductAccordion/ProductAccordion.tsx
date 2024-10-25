@@ -19,14 +19,14 @@ export const ProductAccordion = ({
   toggleIsOpen,
 
   editingProduct,
-  handleEditingProductChange,
-  handleEditProduct,
-  handleEditComplete,
+  updateEditingProduct,
+  editProductStart,
+  editProductComplete,
 
   newDiscount,
-  handleNewDiscountChange,
-  handleAddDiscount,
-  handleRemoveDiscount,
+  changeNewDiscount,
+  addDiscount,
+  removeDiscount,
 }: Props) => {
   const showProductForm = editingProduct && editingProduct.id === product.id;
 
@@ -50,7 +50,7 @@ export const ProductAccordion = ({
 
               <button
                 data-testid="modify-button"
-                onClick={() => handleEditProduct(product)}
+                onClick={() => editProductStart(product)}
                 className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 mt-2"
               >
                 수정
@@ -65,7 +65,7 @@ export const ProductAccordion = ({
                 type="text"
                 value={editingProduct.name}
                 onChange={(e) =>
-                  handleEditingProductChange(product.id, {
+                  updateEditingProduct(product.id, {
                     name: e.target.value,
                   })
                 }
@@ -78,7 +78,7 @@ export const ProductAccordion = ({
                 type="number"
                 value={editingProduct.price}
                 onChange={(e) =>
-                  handleEditingProductChange(product.id, {
+                  updateEditingProduct(product.id, {
                     price: parseInt(e.target.value),
                   })
                 }
@@ -91,7 +91,7 @@ export const ProductAccordion = ({
                 type="number"
                 value={editingProduct.stock}
                 onChange={(e) =>
-                  handleEditingProductChange(product.id, {
+                  updateEditingProduct(product.id, {
                     stock: parseInt(e.target.value),
                   })
                 }
@@ -104,7 +104,7 @@ export const ProductAccordion = ({
                 <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
                 <DiscountInfo
                   discounts={editingProduct.discounts}
-                  handleRemoveDiscount={handleRemoveDiscount}
+                  handleRemoveDiscount={removeDiscount}
                   productId={product.id}
                 />
 
@@ -114,7 +114,7 @@ export const ProductAccordion = ({
                     placeholder="수량"
                     value={newDiscount.quantity}
                     onChange={(e) =>
-                      handleNewDiscountChange({
+                      changeNewDiscount({
                         quantity: parseInt(e.target.value),
                       })
                     }
@@ -125,7 +125,7 @@ export const ProductAccordion = ({
                     placeholder="할인율 (%)"
                     value={newDiscount.rate * 100}
                     onChange={(e) =>
-                      handleNewDiscountChange({
+                      changeNewDiscount({
                         rate: parseInt(e.target.value) / 100,
                       })
                     }
@@ -133,7 +133,7 @@ export const ProductAccordion = ({
                   />
 
                   <button
-                    onClick={() => handleAddDiscount(product.id)}
+                    onClick={() => addDiscount(product.id)}
                     className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
                   >
                     할인 추가
@@ -141,7 +141,7 @@ export const ProductAccordion = ({
                 </div>
               </div>
               <button
-                onClick={handleEditComplete}
+                onClick={editProductComplete}
                 className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 mt-2"
               >
                 수정 완료
