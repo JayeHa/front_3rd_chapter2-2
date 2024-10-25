@@ -3,27 +3,28 @@ import { Shared } from 'refactoring/components/shared';
 import { formatCouponDiscount } from 'refactoring/hooks/utils/couponUtils';
 import { Coupon } from 'types';
 
+const initialCouponState: Coupon = {
+  name: '',
+  code: '',
+  discountType: 'percentage',
+  discountValue: 0,
+};
+
 interface Props {
   coupons: Coupon[];
   onCouponAdd: (newCoupon: Coupon) => void;
 }
 
 export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    name: '',
-    code: '',
-    discountType: 'percentage',
-    discountValue: 0,
-  });
+  const [newCoupon, setNewCoupon] = useState<Coupon>(initialCouponState);
 
   const handleAddCoupon = () => {
     onCouponAdd(newCoupon);
-    setNewCoupon({
-      name: '',
-      code: '',
-      discountType: 'percentage',
-      discountValue: 0,
-    });
+    setNewCoupon(initialCouponState);
+  };
+
+  const updateNewCoupon = (updatedFields: Partial<Coupon>) => {
+    setNewCoupon((prevCoupon) => ({ ...prevCoupon, ...updatedFields }));
   };
 
   return (
@@ -35,26 +36,21 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
             type="text"
             placeholder="쿠폰 이름"
             value={newCoupon.name}
-            onChange={(e) =>
-              setNewCoupon({ ...newCoupon, name: e.target.value })
-            }
+            onChange={(e) => updateNewCoupon({ name: e.target.value })}
           />
 
           <Shared.Input
             type="text"
             placeholder="쿠폰 코드"
             value={newCoupon.code}
-            onChange={(e) =>
-              setNewCoupon({ ...newCoupon, code: e.target.value })
-            }
+            onChange={(e) => updateNewCoupon({ code: e.target.value })}
           />
 
           <div className="flex gap-2">
             <select
               value={newCoupon.discountType}
               onChange={(e) =>
-                setNewCoupon({
-                  ...newCoupon,
+                updateNewCoupon({
                   discountType: e.target.value as 'amount' | 'percentage',
                 })
               }
@@ -69,13 +65,11 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
               placeholder="할인 값"
               value={newCoupon.discountValue}
               onChange={(e) =>
-                setNewCoupon({
-                  ...newCoupon,
-                  discountValue: parseInt(e.target.value),
-                })
+                updateNewCoupon({ discountValue: parseInt(e.target.value) })
               }
             />
           </div>
+
           <Shared.Button
             text="쿠폰 추가"
             onClick={handleAddCoupon}
@@ -84,6 +78,7 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
             className="w-full"
           />
         </div>
+
         <div>
           <h3 className="text-lg font-semibold mb-2">현재 쿠폰 목록</h3>
           <div className="space-y-2">
