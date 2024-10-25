@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Shared } from 'refactoring/components/shared';
+import { formatCouponDiscount } from 'refactoring/hooks/utils/couponUtils';
 import { Coupon } from 'types';
 
 interface Props {
@@ -93,10 +94,7 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
                 className="bg-gray-100 p-2 rounded"
               >
                 {coupon.name} ({coupon.code}):
-                {coupon.discountType === 'amount'
-                  ? `${coupon.discountValue}원`
-                  : `${coupon.discountValue}%`}{' '}
-                할인
+                {formatCouponDiscount(coupon)} 할인
               </div>
             ))}
           </div>

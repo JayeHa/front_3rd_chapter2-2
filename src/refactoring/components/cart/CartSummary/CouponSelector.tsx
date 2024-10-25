@@ -1,4 +1,5 @@
 import { useCart } from 'refactoring/hooks';
+import { formatCouponDiscount } from 'refactoring/hooks/utils/couponUtils';
 import { Coupon } from 'types';
 
 type Props = Pick<
@@ -6,13 +7,6 @@ type Props = Pick<
   'applyCoupon' | 'selectedCoupon'
 > & {
   coupons: Coupon[];
-};
-
-// 쿠폰 할인 포맷
-const formatCouponDiscount = (coupon: Coupon) => {
-  return coupon.discountType === 'amount'
-    ? `${coupon.discountValue}원`
-    : `${coupon.discountValue}%`;
 };
 
 export const CouponSelector = ({
