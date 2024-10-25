@@ -1,3 +1,4 @@
+import { Shared } from 'refactoring/components/shared';
 import { Discount } from 'types';
 
 interface BaseDiscountInfoProps {
@@ -29,12 +30,11 @@ export const DiscountInfo = ({
         </span>
 
         {handleRemoveDiscount && productId && (
-          <button
+          <Shared.Button
+            text="삭제"
             onClick={() => handleRemoveDiscount(productId, index)}
-            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-          >
-            삭제
-          </button>
+            colorVariants="red"
+          />
         )}
       </div>
     ))}

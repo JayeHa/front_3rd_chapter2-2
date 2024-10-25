@@ -1,3 +1,4 @@
+import { Shared } from 'refactoring/components/shared';
 import { useCart } from 'refactoring/hooks';
 import { CartItem } from 'types';
 
@@ -31,24 +32,25 @@ export const CartItemCard = ({
       </div>
 
       <div>
-        <button
+        <Shared.Button
+          text="-"
           onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-          className="bg-gray-300 text-gray-800 px-2 py-1 rounded mr-1 hover:bg-gray-400"
-        >
-          -
-        </button>
-        <button
+          className="mr-1"
+          colorVariants="gray"
+        />
+
+        <Shared.Button
+          text="+"
           onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-          className="bg-gray-300 text-gray-800 px-2 py-1 rounded mr-1 hover:bg-gray-400"
-        >
-          +
-        </button>
-        <button
+          className="mr-1"
+          colorVariants="gray"
+        />
+
+        <Shared.Button
+          text="삭제"
           onClick={() => removeFromCart(item.product.id)}
-          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-        >
-          삭제
-        </button>
+          colorVariants="red"
+        />
       </div>
     </div>
   );

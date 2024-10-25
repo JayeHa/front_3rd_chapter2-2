@@ -67,12 +67,7 @@ export const NewProductForm = ({ addNewProduct }: Props) => {
         className="mb-2"
       />
 
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-      >
-        추가
-      </button>
+      <Shared.Button text="추가" type="submit" className="w-full" size="l" />
     </form>
   );
 };

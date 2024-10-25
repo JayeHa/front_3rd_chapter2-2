@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Shared } from 'refactoring/components/shared';
 import { Coupon } from 'types';
 
 interface Props {
@@ -74,12 +75,13 @@ export const CouponManagement = ({ coupons, onCouponAdd }: Props) => {
               className="w-full p-2 border rounded"
             />
           </div>
-          <button
+          <Shared.Button
+            text="쿠폰 추가"
             onClick={handleAddCoupon}
-            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-          >
-            쿠폰 추가
-          </button>
+            colorVariants="green"
+            size="l"
+            className="w-full"
+          />
         </div>
         <div>
           <h3 className="text-lg font-semibold mb-2">현재 쿠폰 목록</h3>

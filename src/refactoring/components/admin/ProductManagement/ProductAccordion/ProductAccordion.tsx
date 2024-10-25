@@ -35,26 +35,26 @@ export const ProductAccordion = ({
       data-testid={`product-${index + 1}`}
       className="bg-white p-4 rounded shadow"
     >
-      <button
-        data-testid="toggle-button"
+      <Shared.Button
+        text={`${product.name} - ${product.price}원 (재고: ${product.stock})`}
         onClick={() => toggleIsOpen(product.id)}
+        data-testid="toggle-button"
         className="w-full text-left font-semibold"
-      >
-        {product.name} - {product.price}원 (재고: {product.stock})
-      </button>
+        colorVariants="none"
+        size="none"
+      />
       {isOpen && (
         <div className="mt-2">
           {!showProductForm && (
             <div>
               <DiscountInfo discounts={product.discounts} />
 
-              <button
+              <Shared.Button
+                text="수정"
                 data-testid="modify-button"
                 onClick={() => editProductStart(product)}
-                className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 mt-2"
-              >
-                수정
-              </button>
+                className="mt-2"
+              />
             </div>
           )}
 
@@ -132,20 +132,21 @@ export const ProductAccordion = ({
                     className="w-1/3"
                   />
 
-                  <button
+                  <Shared.Button
+                    text="할인 추가"
                     onClick={() => addDiscount(product.id)}
-                    className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                  >
-                    할인 추가
-                  </button>
+                    className="w-1/3"
+                    size="l"
+                  />
                 </div>
               </div>
-              <button
+
+              <Shared.Button
+                text="수정 완료"
                 onClick={editProductComplete}
-                className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 mt-2"
-              >
-                수정 완료
-              </button>
+                className="mt-2"
+                colorVariants="green"
+              />
             </div>
           )}
         </div>
